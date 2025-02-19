@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import in.tech_camp.training_curriculum_java.repository.PlanRepository;
-import in.tech_camp.training_curriculum_java.form.PlanForm;
 import in.tech_camp.training_curriculum_java.entity.PlanEntity;
-
+import in.tech_camp.training_curriculum_java.form.PlanForm;
+import in.tech_camp.training_curriculum_java.repository.PlanRepository;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -58,6 +57,7 @@ public class CalendarsController {
     for (int x = 0; x < 7; x++) {
       Map<String, Object> day_map = new HashMap<String, Object>();
       LocalDate currentDate = todaysDate.plusDays(x);
+      int wdayNum = (todaysDate.getDayOfWeek().getValue() + x) % 7;
 
       List<String> todayPlans = new ArrayList<>();
       for (PlanEntity plan : plans) {
@@ -68,6 +68,7 @@ public class CalendarsController {
 
       day_map.put("month", currentDate.getMonthValue());
       day_map.put("date", currentDate.getDayOfMonth());
+      day_map.put("wday", wdays[wdayNum]);
       day_map.put("plans", todayPlans);
 
       weekDays.add(day_map);
